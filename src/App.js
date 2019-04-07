@@ -9,7 +9,11 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Sample StreetSmart React App!
+          </p>
+          <p>
+            <a href="https://github.com/bmitchinson/streetsmart"
+            style={{color: "White"}}>Github Page</a>
           </p>
           <a
             className="App-link"
