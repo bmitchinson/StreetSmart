@@ -9,17 +9,66 @@ import UsersByDevice from "./../components/blog/UsersByDevice";
 import NewDraft from "./../components/blog/NewDraft";
 import Discussions from "./../components/blog/Discussions";
 import TopReferrals from "./../components/common/TopReferrals";
+import { Component } from "react";
 
-const BlogOverview = ({ smallStats }) => (
-  <Container fluid className="main-content-container px-4">
-    {/* Page Header */}
-    <Row noGutters className="page-header py-4">
-      <PageTitle title="Blog Overview" subtitle="Dashboard" className="text-sm-left mb-3" />
-    </Row>
+class BlogOverview extends Component {
 
-    {/* Small Stats Blocks */}
-    <Row>
-      {smallStats.map((stats, idx) => (
+  constructor() {
+    super();
+    this.state = {
+      SmallGraphs: {
+        GraphOne: {
+          label: "Posts",
+          value: "2,390",
+          percentage: "4.7%",
+          increase: true,
+          chartLabels: [null, null, null, null, null, null, null],
+          attrs: { lg: "6"},
+          datasets: [
+            {
+              label: "Today",
+              fill: "start",
+              borderWidth: 1.5,
+              backgroundColor: "rgba(0, 184, 216, 0.1)",
+              borderColor: "rgb(0, 184, 216)",
+              data: [1, 2, 1, 3, 5, 4, 7]
+            }
+          ]
+        },
+        GraphTwo: {
+          label: "Posts",
+          value: "2,390",
+          percentage: "4.7%",
+          increase: true,
+          chartLabels: [null, null, null, null, null, null, null],
+          attrs: { lg: "6"},
+          datasets: [
+            {
+              label: "Today",
+              fill: "start",
+              borderWidth: 1.5,
+              backgroundColor: "rgba(0, 184, 216, 0.1)",
+              borderColor: "rgb(0, 184, 216)",
+              data: [1, 2, 1, 3, 5, 4, 7]
+            }
+          ]
+        }
+      }
+    }; 
+  }
+
+  render() {
+  console.log(Object.values(this.state.SmallGraphs));
+  return (
+    <Container fluid className="main-content-container px-4">
+      {/* Page Header */}
+      <Row noGutters className="page-header py-4">
+        <PageTitle title="Your Driver Dashboard" subtitle="" className="text-sm-left mb-3" />
+      </Row>
+
+      {/* Small Stats Blocks */}
+      <Row>
+      {Object.values(this.state.SmallGraphs).map((stats, idx) => (
         <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
           <SmallStats
             id={`small-stats-${idx}`}
@@ -34,36 +83,23 @@ const BlogOverview = ({ smallStats }) => (
           />
         </Col>
       ))}
-    </Row>
+      </Row>
 
-    <Row>
-      {/* Users Overview */}
-      <Col lg="8" md="12" sm="12" className="mb-4">
-        <UsersOverview />
-      </Col>
+      <Row>
+        {/* Users Overview */}
+        <Col lg="8" md="12" sm="12" className="mb-4">
+          <UsersOverview />
+        </Col>
 
-      {/* Users by Device */}
-      <Col lg="4" md="6" sm="12" className="mb-4">
-        <UsersByDevice />
-      </Col>
+        {/* Users by Device */}
+        <Col lg="4" md="6" sm="12" className="mb-4">
+          <UsersByDevice />
+        </Col>
 
-      {/* New Draft */}
-      <Col lg="4" md="6" sm="12" className="mb-4">
-        <NewDraft />
-      </Col>
-
-      {/* Discussions */}
-      <Col lg="5" md="12" sm="12" className="mb-4">
-        <Discussions />
-      </Col>
-
-      {/* Top Referrals */}
-      <Col lg="3" md="12" sm="12" className="mb-4">
-        <TopReferrals />
-      </Col>
-    </Row>
-  </Container>
-);
+      </Row>
+    </Container>
+  )}
+}
 
 BlogOverview.propTypes = {
   /**

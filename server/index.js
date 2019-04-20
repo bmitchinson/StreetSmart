@@ -2,6 +2,28 @@ const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const Firestore = require('@google-cloud/firestore');
+const firebase = require("firebase");
+require("firebase/firestore");
+
+firebase.initializeApp({
+  apiKey: "***REMOVED***",
+  authDomain: "streetsmart-2cf68.firebaseapp.com",
+  projectId: "streetsmart-2cf68"
+});
+
+var db = firebase.firestore();
+// db.collection("users").add({
+//   first: "Alan",
+//   middle: "Mathison",
+//   last: "Turing",
+//   born: 1912
+// })
+// db.collection("users").get().then((querySnapshot) => {
+//   querySnapshot.forEach((doc) => {
+//       console.log(`${doc.id} => ${doc.data().first}`);
+//   });
+// });
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 5000;
@@ -30,6 +52,18 @@ if (!isDev && cluster.isMaster) {
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Hello from the custom server!"}');
   });
+
+  // Route for getting all events
+  app.get('/Events', function (req, res) {
+    let hash = []
+    db.collection("events").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          hash.push(doc.data())
+      });
+      res.json(hash)
+    });
+
+  })
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
