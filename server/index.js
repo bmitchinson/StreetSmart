@@ -106,7 +106,7 @@ if (!isDev && cluster.isMaster) {
     if(req.query.Speeding !== undefined) {
       query = query.where("Speeding-Status", ">", 0)
     }
-    console.log(query)
+   
     let hash = []
     query.get().then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
