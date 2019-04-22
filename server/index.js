@@ -17,15 +17,15 @@ firebase.initializeApp({
 
 var db = firebase.firestore();
 
-db.collection("events").get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-      let time = doc.data().Time
-      console.log(time)
-      let date = moment(time);
-      date = date.toDate();
-      console.log(date.format("MM/DD/YY"))
-  });
-});
+// db.collection("events").get().then((querySnapshot) => {
+//   querySnapshot.forEach((doc) => {
+//       let time = doc.data().Time
+//       console.log(time)
+//       let date = moment(time);
+//       date = date.toDate();
+//       console.log(date.format("MM/DD/YY"))
+//   });
+// });
 
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -63,15 +63,27 @@ if (!isDev && cluster.isMaster) {
 
   // Route for getting all events
   app.get('/Events', function (req, res) {
-    console.log("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf")
-    console.log(req.query.date)
-    let hash = []
-    db.collection("events").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          hash.push(doc.data())
+    if(req.query.date === undefined) {
+      let hash = []
+      db.collection("events").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            hash.push(doc.data())
+        });
+        res.json(hash)
       });
-      res.json(hash)
-    });
+    } 
+    else {
+      let date_from_url = req.query.date
+      let date = moment(date_from_url).toDate()
+      // console.log(date)
+      let hash = []
+      db.collection("events").where("Time","==",date).get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          hash.push(doc.data())
+        });
+        res.json(hash)
+      });
+    }
   });
 
   // All remaining requests return the React app, so it can handle routing.
