@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http')
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-const Firestore = require('@google-cloud/firestore');
+// const Firestore = require('@google-cloud/firestore');
 const firebase = require("firebase");
 var moment = require('moment');
 
@@ -97,7 +97,16 @@ if (!isDev && cluster.isMaster) {
       let end_date = moment(end_date_from_url).toDate()
       query = query.where("Time", ">=", start_date).where("Time", "<=", end_date)
     }
-    console.log('wwefnwenfjkwenfkjwenfkejwf')
+    if(req.query.Driver !== undefined) {
+      query = query.where("Driver", "==", req.query.Driver)
+    }
+    if(req.query.Safe !== undefined) {
+      query = query.where("Speeding-Status", "<=", 0)
+    }
+    if(req.query.Speeding !== undefined) {
+      query = query.where("Speeding-Status", ">", 0)
+    }
+    console.log(query)
     let hash = []
     query.get().then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
