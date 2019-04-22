@@ -63,27 +63,49 @@ if (!isDev && cluster.isMaster) {
 
   // Route for getting all events
   app.get('/Events', function (req, res) {
-    if(req.query.date === undefined) {
-      let hash = []
-      db.collection("events").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            hash.push(doc.data())
-        });
-        res.json(hash)
-      });
-    } 
-    else {
-      let date_from_url = req.query.date
+    // if(req.query.date === undefined) {
+    //   let hash = []
+    //   db.collection("events").get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         hash.push(doc.data())
+    //     });
+    //     res.json(hash)
+    //   });
+    // } 
+    // else {
+    //   let date_from_url = req.query.date
+    //   let date = moment(date_from_url).toDate()
+    //   // console.log(date)
+    //   let hash = []
+    //   db.collection("events").where("Time","==",date).get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       hash.push(doc.data())
+    //     });
+    //     res.json(hash)
+    //   });
+    // }
+    let query = db.collection("events")
+    if(req.query.Date !== undefined) {
+      let date_from_url = req.query.Date
       let date = moment(date_from_url).toDate()
-      // console.log(date)
-      let hash = []
-      db.collection("events").where("Time","==",date).get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          hash.push(doc.data())
-        });
-        res.json(hash)
-      });
+      query = query.where("Time", "==", date)
     }
+    if(req.query.StartDate !== undefined) {
+      let start_date_from_url = req.query.StartDate
+      let end_date_from_url = req.query.EndDate
+      let start_date = moment(start_date_from_url).toDate()
+      let end_date = moment(end_date_from_url).toDate()
+      query = query.where("Time", ">=", start_date).where("Time", "<=", end_date)
+    }
+    console.log('wwefnwenfjkwenfkjwenfkejwf')
+    let hash = []
+    query.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              hash.push(doc.data())
+          });
+          res.json(hash)
+        });
+
   });
 
   // All remaining requests return the React app, so it can handle routing.
