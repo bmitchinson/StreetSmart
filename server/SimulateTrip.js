@@ -17,23 +17,28 @@ let Driver = "Tyler" // Constant
 let StatusCode = ""
 
 // Starting time of the trip
-let Time = moment('04-24-2019 19:53', 'MM-DD-YYYY hh:mm');
+let Time = moment('04-25-2019 1:15', 'MM-DD-YYYY hh:mm');
 
 // to use for simulated trip
 let checkpointStrings = [
-  "41.660145, -91.537679",
-  "41.659920, -91.520041",
-  "41.651764, -91.507637"
+  "41.663611, -91.534595",
+  "41.663627, -91.537588",
+  "41.656694, -91.537728",
+  "41.656615, -91.530174",
+  "41.654159, -91.530218",
+  "41.650474, -91.531966",
+  "41.649512, -91.532020",
+  "41.649472, -91.515884"
 ]
 
 let speedLimits = [
-  25, 35
+  25, 35, 25, 25, 25, 25, 45
 ]
 
 // Alters varience from speed limit
-let DriveStyle = 3 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
-let sampleRate = 30 // Sample every 15 seconds
-let timeFactor = 5 // Move time along 3x times faster
+let DriveStyle =  3 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
+let sampleRate = 15 // Sample every 15 seconds
+let timeFactor = 1 // Move time along 3x times faster
 let pushMode = true // If enabled results are pushed to firebase
 let delayMode = true // If enabled, time / speed MPH accurate delays occur
 
@@ -108,6 +113,7 @@ for (const destPoint of checkpoints){
       )
       if (pushMode) {
         await db.collection("events").doc().set({
+          RealData: false,
           Battery: Battery,
           Driver: Driver,
           Location: carGeoPoint,
@@ -135,6 +141,7 @@ for (const destPoint of checkpoints){
     carGeoPoint = checkpoints[index]
     if (pushMode) {
       await db.collection("events").doc().set({
+        RealData: false,
         Battery: Battery,
         Driver: Driver,
         Location: carGeoPoint,
@@ -151,7 +158,7 @@ for (const destPoint of checkpoints){
       sleep(1000 * sampleRate / timeFactor);
     }
     Time = Time.add(sampleRate, 'seconds')
-    console.log(Time.format('lll') + ": 🚗  reached point " + index + "! " + checkpointStrings[index]);
+    console.log(Time.format('lll') + ": 🚗  reached point " + index+1 + "! " + checkpointStrings[index]);
   }
   index++
 }
@@ -160,18 +167,5 @@ console.log("End of trip");
 console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 }
 
+// Call the main sim async function
 sim()
-
-/* db.collection("events").doc().set({
-  Battery: Battery,
-  Driver: Driver,
-  Location: Location,
-  Speed: Speed,
-  SpeedLimit: SpeedLimit,
-  SpeedStatus: SpeedStatus,
-  StatusCode: StatusCode,
-  Time: firebase.firestore.Timestamp.fromDate(Time.toDate())
-}).then( () => {
-  console.log("Wrote to firebase");
-  process.exit();
-}) */

@@ -1,0 +1,22 @@
+Routes:
+
+
+// https://www.mapcustomizer.com/map/RouteOne
+// Run at high speeds to show heated area
+let checkpointStrings = [
+  "41.663611, -91.534595",
+  "41.663627, -91.537588",
+  "41.656694, -91.537728",
+  "41.656615, -91.530174",
+  "41.654159, -91.530218",
+  "41.650474, -91.531966",
+  "41.649512, -91.532020",
+  "41.649472, -91.515884"
+]
+
+let speedLimits = [
+  25, 35, 25, 25, 25, 25, 45
+]
+
+// need a route that follows along RouteOne for
+//   most of the path, but then diverges off and goes slow

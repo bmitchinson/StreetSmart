@@ -53,6 +53,8 @@ if (!isDev && cluster.isMaster) {
   app.get('/Events', function (req, res) {
     let query = db.collection("events")
 
+    console.log(req.params);
+
     if(req.query.Date !== undefined) {
       let date_from_url = req.query.Date
       let date = moment(date_from_url).toDate()
