@@ -73,6 +73,7 @@ function sleep(milliseconds) {
   }
 }
 
+async function sim(){
 let carGeoPoint = checkpoints[0];
 console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 console.log(Time.format('lll') + ": Starting 🚗  @ "
@@ -80,7 +81,9 @@ console.log(Time.format('lll') + ": Starting 🚗  @ "
   " Driver Style: " + DriveStyle)
 console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 // Begin adding data in simulated time (if delayMode, otherwise all at once)
-checkpoints.forEach((destPoint, index) => {
+let index = 0
+for (const destPoint of checkpoints){
+//checkpoints.forEach((destPoint, index) => {
   if (index != 0) {
     // Variance in speed
     let carMPH = speedLimits[index - 1] + (DriveStyle * Math.floor(Math.random() * 10) + 1)
@@ -104,8 +107,7 @@ checkpoints.forEach((destPoint, index) => {
         carGeoPoint.longitude + longShift
       )
       if (pushMode) {
-        console.log("Write?")
-        db.collection("events").doc().set({
+        await db.collection("events").doc().set({
           Battery: Battery,
           Driver: Driver,
           Location: carGeoPoint,
@@ -115,7 +117,7 @@ checkpoints.forEach((destPoint, index) => {
           StatusCode: StatusCode,
           Time: firebase.firestore.Timestamp.fromDate(Time.toDate())
         }).then(() => {
-          console.log("Wrote document to firebase 🔥 ✔️");
+          console.log("🔥 ✔️");
         })
       }
       if (delayMode) {
@@ -132,8 +134,7 @@ checkpoints.forEach((destPoint, index) => {
     Battery--
     carGeoPoint = checkpoints[index]
     if (pushMode) {
-      console.log("Write?")
-      db.collection("events").doc().set({
+      await db.collection("events").doc().set({
         Battery: Battery,
         Driver: Driver,
         Location: carGeoPoint,
@@ -143,7 +144,7 @@ checkpoints.forEach((destPoint, index) => {
         StatusCode: StatusCode,
         Time: firebase.firestore.Timestamp.fromDate(Time.toDate())
       }).then(() => {
-        console.log("Wrote document to firebase 🔥 ✔️");
+        console.log("🔥 ✔️");
       })
     }
     if (delayMode) {
@@ -152,10 +153,14 @@ checkpoints.forEach((destPoint, index) => {
     Time = Time.add(sampleRate, 'seconds')
     console.log(Time.format('lll') + ": 🚗  reached point " + index + "! " + checkpointStrings[index]);
   }
-})
+  index++
+}
 console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 console.log("End of trip");
 console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+}
+
+sim()
 
 /* db.collection("events").doc().set({
   Battery: Battery,
