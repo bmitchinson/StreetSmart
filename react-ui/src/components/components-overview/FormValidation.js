@@ -32,7 +32,6 @@ const FormValidation = () => (
             valid
             onChange={() => {}}
           />
-          <FormFeedback valid>The last name looks good!</FormFeedback>
         </Col>
       </Row>
       <FormGroup>
