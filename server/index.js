@@ -80,6 +80,10 @@ if (!isDev && cluster.isMaster) {
     if(req.query.Speeding !== undefined) {
       query = query.where("SpeedStatus", ">", 0)
     }
+
+    if(req.query.RealData !== undefined) {
+      query = query.where("RealData", "==", req.query.RealData)
+    }
    
     let hash = []
     query.get().then((querySnapshot) => {
