@@ -1,20 +1,53 @@
 import React from "react";
-import { Container, 
-  Row, 
-  Col, 
-  Card, 
-  CardHeader, 
-  CardBody, 
-  Button, 
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  Button,
   Form,
   FormGroup,
   FormFeedback,
-  FormSelect } from "shards-react";
-
+  FormSelect
+} from "shards-react";
+import MomentUtils from '@date-io/moment';
+import { DatePicker, MuiPickersUtilsProvider } from "material-ui-pickers";
 import PageTitle from "../components/common/PageTitle";
+var moment = require('moment');
+
 class Tables extends React.Component {
   constructor(props) {
     super(props);
+    this.handleDriverChange = this.handleDriverChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.state = ({
+      Date: new Date(),
+      Events: {
+        0: {
+          "Battery": 38,
+          "Driver": "Tyler",
+          "Location": { "_lat": 41.64948079186202, "_long": -91.51943063714101 },
+          "RealData": false,
+          "Speed": 52,
+          "SpeedLimit": 45,
+          "SpeedStatus": 7,
+          "StatusCode": "",
+          "Time": { "seconds": 1556172915, "nanoseconds": 0 }
+        }
+      }
+    })
+  }
+
+  handleDriverChange(e) {
+    console.log("Chose: " + e.target.value);
+  }
+
+  handleDateChange(date) {
+    this.setState({
+      Date: date
+    })
   }
 
   render() {
@@ -35,14 +68,25 @@ class Tables extends React.Component {
               <CardHeader className="border-bottom">
                 <Form>
                   <Row form>
-                    <Col md="3" className="form-group">
+                    <Col md="1" className="form-group">
                       <FormGroup>
-                        <FormSelect>
-                          <option>Choose...</option>
+                        <FormSelect
+                          value="Driver..."
+                          onChange={this.handleDriverChange}
+                        >
+                          <option value="Driver...">Driver...</option>
                           <option>Tyler</option>
                         </FormSelect>
-                        <FormFeedback>Driver</FormFeedback>
                       </FormGroup>
+                    </Col>
+                    <Col md="1" className="form-group">
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DatePicker
+                          value={this.state.Date}
+                          onChange={this.handleDateChange}
+                          animateYearScrolling
+                        />
+                      </MuiPickersUtilsProvider>
                     </Col>
                   </Row>
                 </Form>
@@ -53,44 +97,47 @@ class Tables extends React.Component {
                     <tr>
                       <th scope="col" className="border-0">
                         Time
-                  </th>
+                      </th>
                       <th scope="col" className="border-0">
                         Driver
-                  </th>
+                      </th>
                       <th scope="col" className="border-0">
                         Location
-                  </th>
+                      </th>
                       <th scope="col" className="border-0">
                         Battery
-                  </th>
+                      </th>
                       <th scope="col" className="border-0">
                         Speed
-                  </th>
+                      </th>
                       <th scope="col" className="border-0">
                         SpeedLimit
-                  </th>
+                      </th>
                       <th scope="col" className="border-0">
                         SpeedStatus
-                  </th>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Apr 25th 2019 - 1:15:30</td>
-                      <td>Tyler</td>
-                      <td>41.661094, -91.537</td>
-                      <td>43</td>
-                      <td>42</td>
-                      <td>35</td>
-                      <td>7</td>
-                    </tr>
+                    {Object.values(this.state.Events).map((event, idx) => (
+                      <tr key={idx}>
+                        <td>Date</td>
+                        <td>{event.Driver}</td>
+                        <td>{Number.parseFloat(event.Location._lat).toFixed(6)}, 
+                        {Number.parseFloat(event.Location._long).toFixed(6)}</td>
+                        <td>{event.Battery}</td>
+                        <td>{event.Speed}</td>
+                        <td>{event.SpeedLimit}</td>
+                        <td>{event.SpeedStatus}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </CardBody>
             </Card>
           </Col>
         </Row>
-      </Container>
+      </Container >
     )
   }
 }
