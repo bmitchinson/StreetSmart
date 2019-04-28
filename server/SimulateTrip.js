@@ -168,4 +168,18 @@ console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 // Call the main sim async function
-sim()
+//sim()
+
+/* db.collection("bentest").doc().set({
+  RealData: false,
+  Battery: Battery,
+  Driver: Driver,
+  Location: carGeoPoint,
+  Speed: carMPH,
+  SpeedLimit: speedLimits[index - 1],
+  SpeedStatus: (carMPH - speedLimits[index - 1]),
+  StatusCode: StatusCode,
+  Time: firebase.firestore.Timestamp.fromDate(Time.toDate())
+}).then(() => {
+  console.log("🔥 ✔️");
+}) */

@@ -20,33 +20,65 @@ var moment = require('moment');
 class Tables extends React.Component {
   constructor(props) {
     super(props);
-    this.handleDriverChange = this.handleDriverChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleDriverChange = this.handleDriverChange.bind(this);
+    this.handleSpeedingChange = this.handleSpeedingChange.bind(this);
+    this.handleSpeedChange = this.handleSpeedChange.bind(this);
+    this.handleSpeedLimitChange = this.handleSpeedLimitChange.bind(this);
+    this.filterHit = this.filterHit.bind(this);
+
     this.state = ({
-      Date: new Date(),
+      Filter: {
+        Date: new Date(),
+        Driver: "Driver...",
+        Speeding: "Speeding...",
+        Speed: "Speed...",
+        SpeedLimit: "Speed Limit ..."
+      },
       Events: {
-        0: {
-          "Battery": 38,
-          "Driver": "Tyler",
-          "Location": { "_lat": 41.64948079186202, "_long": -91.51943063714101 },
-          "RealData": false,
-          "Speed": 52,
-          "SpeedLimit": 45,
-          "SpeedStatus": 7,
-          "StatusCode": "",
-          "Time": { "seconds": 1556172915, "nanoseconds": 0 }
-        }
       }
     })
   }
 
-  handleDriverChange(e) {
-    console.log("Chose: " + e.target.value);
+  filterHit(e){
+    console.log("Filter applied")
   }
 
   handleDateChange(date) {
     this.setState({
       Date: date
+    })
+  }
+
+  handleDriverChange(e) {
+    this.setState({
+      Filter: {
+        Driver: e.target.value
+      }
+    })
+  }
+
+  handleSpeedingChange(e) {
+    this.setState({
+      Filter: {
+        Speeding: e.target.value
+      }
+    })
+  }
+
+  handleSpeedChange(e) {
+    this.setState({
+      Filter: {
+        Speed: e.target.value
+      }
+    })
+  }
+
+  handleSpeedLimitChange(e) {
+    this.setState({
+      Filter: {
+        SpeedLimit: e.target.value
+      }
     })
   }
 
@@ -68,26 +100,84 @@ class Tables extends React.Component {
               <CardHeader className="border-bottom">
                 <Form>
                   <Row form>
-                    <Col md="1" className="form-group">
-                      <FormGroup>
-                        <FormSelect
-                          value="Driver..."
-                          onChange={this.handleDriverChange}
-                        >
-                          <option value="Driver...">Driver...</option>
-                          <option>Tyler</option>
-                        </FormSelect>
-                      </FormGroup>
-                    </Col>
+
                     <Col md="1" className="form-group">
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DatePicker
-                          value={this.state.Date}
+                          value={this.state.Filter.Date}
                           onChange={this.handleDateChange}
                           animateYearScrolling
                         />
                       </MuiPickersUtilsProvider>
                     </Col>
+
+                    <Col md="1" className="form-group">
+                      <FormGroup>
+                        <FormSelect
+                          value={this.state.Filter.Driver}
+                          onChange={this.handleDriverChange}
+                        >
+                          <option>Driver...</option>
+                          <option>Tyler</option>
+                        </FormSelect>
+                      </FormGroup>
+                    </Col>
+
+                    <Col md="1" className="form-group">
+                      <FormGroup>
+                        <FormSelect
+                          value={this.state.Filter.Speeding}
+                          onChange={this.handleSpeedingChange}
+                        >
+                          <option>Speeding...</option>
+                          <option>Over Limit</option>
+                          <option>Under Limit</option>
+                        </FormSelect>
+                      </FormGroup>
+                    </Col>
+
+                    <Col md="1" className="form-group">
+                      <FormGroup>
+                        <FormSelect
+                          value={this.state.Filter.Speed}
+                          onChange={this.handleSpeedChange}
+                        >
+                          <option>Speed...</option>
+                          <option>10-25</option>
+                          <option>25-35</option>
+                          <option>35-45</option>
+                          <option>45-60</option>
+                          <option>60-75</option>
+                          <option>75-90</option>
+                          <option>90+</option>
+                        </FormSelect>
+                      </FormGroup>
+                    </Col>
+
+                    <Col md="1" className="form-group">
+                      <FormGroup>
+                        <FormSelect
+                          value={this.state.Filter.SpeedLimit}
+                          onChange={this.handleSpeedLimitChange}
+                        >
+                          <option>Speed Limit...</option>
+                          <option>10-25</option>
+                          <option>25-35</option>
+                          <option>35-45</option>
+                          <option>45-60</option>
+                          <option>60-75</option>
+                          <option>75-90</option>
+                        </FormSelect>
+                      </FormGroup>
+                    </Col>
+
+                    <Col>
+                      <Button outline theme="primary" className="mb-2 mr-1"
+                        onClick={this.filterHit}>
+                        Filter
+                      </Button>
+                    </Col>
+
                   </Row>
                 </Form>
               </CardHeader>
@@ -111,24 +201,25 @@ class Tables extends React.Component {
                         Speed
                       </th>
                       <th scope="col" className="border-0">
-                        SpeedLimit
+                        Speed Limit
                       </th>
                       <th scope="col" className="border-0">
-                        SpeedStatus
+                        Speed Status (+/-)
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {Object.values(this.state.Events).map((event, idx) => (
                       <tr key={idx}>
-                        <td>Date</td>
+                        <td>{moment(event.Time.seconds, 'X').format("lll")}</td>
                         <td>{event.Driver}</td>
-                        <td>{Number.parseFloat(event.Location._lat).toFixed(6)}, 
-                        {Number.parseFloat(event.Location._long).toFixed(6)}</td>
-                        <td>{event.Battery}</td>
-                        <td>{event.Speed}</td>
-                        <td>{event.SpeedLimit}</td>
-                        <td>{event.SpeedStatus}</td>
+                        <td>{Number.parseFloat(event.Location._lat).toFixed(6)},
+                         {Number.parseFloat(event.Location._long).toFixed(6)}</td>
+                        <td>{event.Battery}%</td>
+                        <td>{event.Speed}MPH</td>
+                        <td>{event.SpeedLimit}MPH</td>
+                        <td>{(Math.sign(event.SpeedStatus) == 1) ? '+' : ''}
+                          {event.SpeedStatus}MPH</td>
                       </tr>
                     ))}
                   </tbody>
