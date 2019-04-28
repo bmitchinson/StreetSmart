@@ -43,15 +43,22 @@ class Tables extends React.Component {
   }
 
   componentDidMount() {
-
-    
-    /* fetch('')
-      .then(response => response.json())
-      .then(data => this.setState({ data })); */
+    this.filterHit()
   }
 
-  filterHit(e){
-    console.log(window.location.hostname)
+  filterHit(){
+    let base = (window.location.href)
+    base = base.split("/")
+    base = base[0] + "//" + base[2]
+    base = base.replace('3000', '5000')
+
+    let url = base + '/events'
+    console.log(url)
+
+    fetch(url)
+      .then(response => response.json())
+      //.then(data => console.log(data))
+      .then(data => this.setState({ Events: data }));
   }
 
   handleDateChange(selection) {
@@ -121,7 +128,7 @@ class Tables extends React.Component {
                 <Form>
                   <Row form>
 
-                    <Col md="1" className="form-group">
+                    <Col md="2" className="form-group">
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DatePicker
                           value={this.state.Filter.Date}
@@ -143,7 +150,7 @@ class Tables extends React.Component {
                       </FormGroup>
                     </Col>
 
-                    <Col md="1" className="form-group">
+                    <Col md="2" className="form-group">
                       <FormGroup>
                         <FormSelect
                           value={this.state.Filter.Speeding}
@@ -156,7 +163,7 @@ class Tables extends React.Component {
                       </FormGroup>
                     </Col>
 
-                    <Col md="1" className="form-group">
+                    <Col md="2" className="form-group">
                       <FormGroup>
                         <FormSelect
                           value={this.state.Filter.Speed}
