@@ -42,8 +42,16 @@ class Tables extends React.Component {
     })
   }
 
+  componentDidMount() {
+
+    
+    /* fetch('')
+      .then(response => response.json())
+      .then(data => this.setState({ data })); */
+  }
+
   filterHit(e){
-    console.log("Filter applied")
+    console.log(window.location.hostname)
   }
 
   handleDateChange(date) {
@@ -164,7 +172,7 @@ class Tables extends React.Component {
                       </FormGroup>
                     </Col>
 
-                    <Col md="1" className="form-group">
+                    <Col md="2" className="form-group">
                       <FormGroup>
                         <FormSelect
                           value={this.state.Filter.SpeedLimit}
@@ -181,7 +189,7 @@ class Tables extends React.Component {
                       </FormGroup>
                     </Col>
 
-                    <Col md="1" className="form-group">
+                    <Col md="2" className="form-group">
                       <FormGroup>
                         <FormSelect
                           value={this.state.Filter.RealData}
