@@ -25,6 +25,7 @@ class Tables extends React.Component {
     this.handleSpeedingChange = this.handleSpeedingChange.bind(this);
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
     this.handleSpeedLimitChange = this.handleSpeedLimitChange.bind(this);
+    this.handleRealData = this.handleRealData.bind(this);
     this.filterHit = this.filterHit.bind(this);
 
     this.state = ({
@@ -33,7 +34,8 @@ class Tables extends React.Component {
         Driver: "Driver...",
         Speeding: "Speeding...",
         Speed: "Speed...",
-        SpeedLimit: "Speed Limit ..."
+        SpeedLimit: "Speed Limit ...",
+        RealData: "Sensor or Sim..."
       },
       Events: {
       }
@@ -78,6 +80,14 @@ class Tables extends React.Component {
     this.setState({
       Filter: {
         SpeedLimit: e.target.value
+      }
+    })
+  }
+
+  handleRealData(e) {
+    this.setState({
+      Filter: {
+        RealData: e.target.value
       }
     })
   }
@@ -167,6 +177,20 @@ class Tables extends React.Component {
                           <option>45-60</option>
                           <option>60-75</option>
                           <option>75-90</option>
+                        </FormSelect>
+                      </FormGroup>
+                    </Col>
+
+                    <Col md="1" className="form-group">
+                      <FormGroup>
+                        <FormSelect
+                          value={this.state.Filter.RealData}
+                          onChange={this.handleRealData}
+                        >
+                          <option>Sensor or Sim...</option>
+                          <option>Sensor</option>
+                          <option>Sim</option>
+                          <option>Both</option>
                         </FormSelect>
                       </FormGroup>
                     </Col>
