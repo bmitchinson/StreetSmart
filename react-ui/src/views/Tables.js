@@ -54,9 +54,11 @@ class Tables extends React.Component {
     console.log(window.location.hostname)
   }
 
-  handleDateChange(date) {
+  handleDateChange(selection) {
     this.setState({
-      Date: date
+      Filter: {
+        Date: selection
+      }
     })
   }
 
