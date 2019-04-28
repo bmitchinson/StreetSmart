@@ -86,7 +86,6 @@ if (!isDev && cluster.isMaster) {
       else {
         query = query.where("RealData", "==", false)
       }
-      
     }
    
     let hash = []
