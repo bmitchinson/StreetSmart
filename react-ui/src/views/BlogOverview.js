@@ -58,7 +58,6 @@ class BlogOverview extends Component {
   }
 
   render() {
-  console.log(Object.values(this.state.SmallGraphs));
   return (
     <Container fluid className="main-content-container px-4">
       {/* Page Header */}
