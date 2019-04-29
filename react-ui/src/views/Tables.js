@@ -26,16 +26,16 @@ class Tables extends React.Component {
     this.handleSpeedChange = this.handleSpeedChange.bind(this);
     this.handleSpeedLimitChange = this.handleSpeedLimitChange.bind(this);
     this.handleRealData = this.handleRealData.bind(this);
-    this.filterHit = this.filterHit.bind(this);
+    this.filter = this.filter.bind(this);
 
     this.state = ({
       Filter: {
-        Date: new Date(),
-        Driver: "Driver...",
-        Speeding: "Speeding...",
-        Speed: "Speed...",
-        SpeedLimit: "Speed Limit ...",
-        RealData: "Sensor or Sim..."
+        Date: new moment().startOf('day'),
+        Driver: "All",
+        Speeding: "All",
+        Speed: "All",
+        SpeedLimit: "All",
+        RealData: "All"
       },
       Events: {
       }
@@ -43,70 +43,95 @@ class Tables extends React.Component {
   }
 
   componentDidMount() {
-    this.filterHit()
+    this.filter()
   }
 
-  filterHit(){
+  filter() {
     let base = (window.location.href)
     base = base.split("/")
     base = base[0] + "//" + base[2]
     base = base.replace('3000', '5000')
 
-    let url = base + '/events'
-    console.log(url)
+    let url = base + '/events?Date=' + this.state.Filter.Date.format('x')
 
+    url = (this.state.Filter.Driver === "All") ? url :
+      (url + '&Driver=' + this.state.Filter.Driver)
+
+    url = (this.state.Filter.Speeding === "All") ? url :
+      (url + '&Speeding=' + this.state.Filter.Speeding)
+
+    url = (this.state.Filter.Speed === "All") ? url :
+      (url + '&Speed=' + this.state.Filter.Speed)
+
+    url = (this.state.Filter.SpeedLimit === "All") ? url :
+      (url + '&SpeedLimit=' + this.state.Filter.SpeedLimit)
+
+    url = (this.state.Filter.RealData === "All") ? url :
+      (url + '&RealData=' + this.state.Filter.RealData)
+
+    console.log(url)
     fetch(url)
       .then(response => response.json())
-      //.then(data => console.log(data))
-      .then(data => this.setState({ Events: data }));
+      .then(data => this.setState({ Events: data }, () => console.log("SSet")));
   }
 
   handleDateChange(selection) {
-    this.setState({
+    this.setState(prevState => ({
       Filter: {
-        Date: selection
+        ...prevState.Filter,
+        Date: selection.startOf('day')
       }
-    })
+    }), this.filter)
   }
 
   handleDriverChange(e) {
-    this.setState({
+    let update = e.target.value
+    this.setState(prevState => ({
       Filter: {
-        Driver: e.target.value
+        ...prevState.Filter,
+        Driver: update
       }
-    })
+    }), this.filter)
   }
 
   handleSpeedingChange(e) {
-    this.setState({
+    let update = e.target.value
+    this.setState(prevState => ({
       Filter: {
-        Speeding: e.target.value
+        ...prevState.Filter,
+        Speeding: update
       }
-    })
+    }), this.filter)
   }
 
   handleSpeedChange(e) {
-    this.setState({
+    let update = e.target.value
+    this.setState(prevState => ({
       Filter: {
-        Speed: e.target.value
+        ...prevState.Filter,
+        Speed: update
       }
-    })
+    }), this.filter)
   }
 
   handleSpeedLimitChange(e) {
-    this.setState({
+    let update = e.target.value
+    this.setState(prevState => ({
       Filter: {
-        SpeedLimit: e.target.value
+        ...prevState.Filter,
+        SpeedLimit: update
       }
-    })
+    }), this.filter)
   }
 
   handleRealData(e) {
-    this.setState({
+    let update = e.target.value
+    this.setState(prevState => ({
       Filter: {
-        RealData: e.target.value
+        ...prevState.Filter,
+        RealData: update
       }
-    })
+    }), this.filter)
   }
 
   render() {
@@ -122,101 +147,88 @@ class Tables extends React.Component {
           <Col>
             <Card small className="mb-4">
               <CardHeader className="border-bottom">
-                <h6 className="m-0">Events</h6>
-              </CardHeader>
-              <CardHeader className="border-bottom">
                 <Form>
                   <Row form>
 
                     <Col md="2" className="form-group">
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DatePicker
+                          style={{paddingTop:"15px"}}
                           value={this.state.Filter.Date}
                           onChange={this.handleDateChange}
                           animateYearScrolling
-                        />
+                          />
                       </MuiPickersUtilsProvider>
                     </Col>
 
-                    <Col md="1" className="form-group">
-                      <FormGroup>
-                        <FormSelect
-                          value={this.state.Filter.Driver}
-                          onChange={this.handleDriverChange}
-                        >
-                          <option>Driver...</option>
-                          <option>Tyler</option>
-                        </FormSelect>
-                      </FormGroup>
+                    <Col md="2" className="form-group">
+                    <label style={{margin:'auto'}}>Driver</label>
+                      <FormSelect
+                        value={this.state.Filter.Driver}
+                        onChange={this.handleDriverChange}
+                      >
+                        <option>All</option>
+                        <option>Tyler</option>
+                        <option>Er-Wei</option>
+                      </FormSelect>
                     </Col>
 
                     <Col md="2" className="form-group">
-                      <FormGroup>
-                        <FormSelect
-                          value={this.state.Filter.Speeding}
-                          onChange={this.handleSpeedingChange}
-                        >
-                          <option>Speeding...</option>
-                          <option>Over Limit</option>
-                          <option>Under Limit</option>
-                        </FormSelect>
-                      </FormGroup>
+                    <label style={{margin:'auto'}}>Speeding</label>
+                      <FormSelect
+                        value={this.state.Filter.Speeding}
+                        onChange={this.handleSpeedingChange}
+                      >
+                        <option>All</option>
+                        <option>OverLimit</option>
+                        <option>UnderLimit</option>
+                      </FormSelect>
                     </Col>
 
                     <Col md="2" className="form-group">
-                      <FormGroup>
-                        <FormSelect
-                          value={this.state.Filter.Speed}
-                          onChange={this.handleSpeedChange}
-                        >
-                          <option>Speed...</option>
-                          <option>10-25</option>
-                          <option>25-35</option>
-                          <option>35-45</option>
-                          <option>45-60</option>
-                          <option>60-75</option>
-                          <option>75-90</option>
-                          <option>90+</option>
-                        </FormSelect>
-                      </FormGroup>
+                    <label style={{margin:'auto'}}>Speed</label>
+                      <FormSelect
+                        value={this.state.Filter.Speed}
+                        onChange={this.handleSpeedChange}
+                      >
+                        <option>All</option>
+                        <option>10-25</option>
+                        <option>25-35</option>
+                        <option>35-45</option>
+                        <option>45-60</option>
+                        <option>60-75</option>
+                        <option>75-90</option>
+                        <option>90+</option>
+                      </FormSelect>
                     </Col>
 
                     <Col md="2" className="form-group">
-                      <FormGroup>
-                        <FormSelect
-                          value={this.state.Filter.SpeedLimit}
-                          onChange={this.handleSpeedLimitChange}
-                        >
-                          <option>Speed Limit...</option>
-                          <option>10-25</option>
-                          <option>25-35</option>
-                          <option>35-45</option>
-                          <option>45-60</option>
-                          <option>60-75</option>
-                          <option>75-90</option>
-                        </FormSelect>
-                      </FormGroup>
+                    <label style={{margin:'auto'}}>Speed Limit</label>
+                      <FormSelect
+                        value={this.state.Filter.SpeedLimit}
+                        onChange={this.handleSpeedLimitChange}
+                      >
+                        <option>All</option>
+                        <option>10-25</option>
+                        <option>25-35</option>
+                        <option>35-45</option>
+                        <option>45-60</option>
+                        <option>60-75</option>
+                        <option>75-90</option>
+                      </FormSelect>
                     </Col>
 
                     <Col md="2" className="form-group">
-                      <FormGroup>
-                        <FormSelect
-                          value={this.state.Filter.RealData}
-                          onChange={this.handleRealData}
-                        >
-                          <option>Sensor or Sim...</option>
-                          <option>Sensor</option>
-                          <option>Sim</option>
-                          <option>Both</option>
-                        </FormSelect>
-                      </FormGroup>
-                    </Col>
-
-                    <Col>
-                      <Button outline theme="primary" className="mb-2 mr-1"
-                        onClick={this.filterHit}>
-                        Filter
-                      </Button>
+                    <label style={{margin:'auto'}}>Sensor/Sim</label>
+                      <FormSelect
+                        value={this.state.Filter.RealData}
+                        onChange={this.handleRealData}
+                      >
+                        <option>All</option>
+                        <option>Sensor</option>
+                        <option>Sim</option>
+                        <option>Both</option>
+                      </FormSelect>
                     </Col>
 
                   </Row>
@@ -257,10 +269,10 @@ class Tables extends React.Component {
                         <td>{Number.parseFloat(event.Location._lat).toFixed(6)},
                          {Number.parseFloat(event.Location._long).toFixed(6)}</td>
                         <td>{event.Battery}%</td>
-                        <td>{event.Speed}MPH</td>
-                        <td>{event.SpeedLimit}MPH</td>
+                        <td>{Number.parseFloat(event.Speed).toFixed(0)}MPH</td>
+                        <td>{Number.parseFloat(event.SpeedLimit).toFixed(0)}MPH</td>
                         <td>{(Math.sign(event.SpeedStatus) == 1) ? '+' : ''}
-                          {event.SpeedStatus}MPH</td>
+                          {Number.parseFloat(event.SpeedStatus).toFixed(0)}MPH</td>
                       </tr>
                     ))}
                   </tbody>

@@ -11,13 +11,13 @@ var db = firebase.firestore();
 
 // Initial Values for simulating a "trip"
 let Battery = Math.floor(Math.random() * 60) + 40 // Will decay slowly
-let Driver = "Tyler" // Constant
 
 // Optional status code enabled for the entire trip
 let StatusCode = ""
 
 // Starting time of the trip
-let Time = moment('04-25-2019 1:15', 'MM-DD-YYYY hh:mm');
+let Driver = "Tyler" // Constant
+let Time = moment('04-27-2019 10:45', 'MM-DD-YYYY hh:mm');
 
 // to use for simulated trip
 let checkpointStrings = [
@@ -36,9 +36,9 @@ let speedLimits = [
 ]
 
 // Alters varience from speed limit
-let DriveStyle =  3 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
+let DriveStyle = -1 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
 let sampleRate = 15 // Sample every 15 seconds
-let timeFactor = 1 // Move time along 3x times faster
+let timeFactor = 3 // Move time along 3x times faster
 let pushMode = true // If enabled results are pushed to firebase
 let delayMode = true // If enabled, time / speed MPH accurate delays occur
 
@@ -158,7 +158,7 @@ for (const destPoint of checkpoints){
       sleep(1000 * sampleRate / timeFactor);
     }
     Time = Time.add(sampleRate, 'seconds')
-    console.log(Time.format('lll') + ": 🚗  reached point " + index+1 + "! " + checkpointStrings[index]);
+    console.log(Time.format('lll') + ": 🚗  reached point " + String(index+1) + "! " + checkpointStrings[index]);
   }
   index++
 }
@@ -168,7 +168,7 @@ console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 }
 
 // Call the main sim async function
-//sim()
+sim()
 
 /* db.collection("bentest").doc().set({
   RealData: false,
