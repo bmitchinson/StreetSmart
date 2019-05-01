@@ -271,7 +271,7 @@ class Table extends React.Component {
                         <td>{event.Battery}%</td>
                         <td>{Number.parseFloat(event.Speed).toFixed(0)}MPH</td>
                         <td>{Number.parseFloat(event.SpeedLimit).toFixed(0)}MPH</td>
-                        <td>{(Math.sign(event.SpeedStatus) == 1) ? '+' : ''}
+                        <td>{(Math.sign(event.SpeedStatus) === 1) ? '+' : ''}
                           {Number.parseFloat(event.SpeedStatus).toFixed(0)}MPH</td>
                       </tr>
                     ))}
