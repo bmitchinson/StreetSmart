@@ -36,9 +36,9 @@ let speedLimits = [
 ]
 
 // Alters varience from speed limit
-let DriveStyle = 2 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
+let DriveStyle = 5 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
 let sampleRate = 12 // Sample every 15 seconds
-let timeFactor = 2 // Move time along 3x times faster
+let timeFactor = 3 // Move time along 3x times faster
 let pushMode = true // If enabled results are pushed to firebase
 let delayMode = true // If enabled, time / speed MPH accurate delays occur
 
