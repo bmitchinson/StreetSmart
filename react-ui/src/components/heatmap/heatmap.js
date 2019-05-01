@@ -3,6 +3,10 @@ import { render } from 'react-dom';
 import { Marker, Popup, TileLayer, Map } from 'react-leaflet'; // Just Map
 import HeatmapLayer from './HeatmapLayer';
 import { addressPoints } from './realworld.10000.js';
+import MomentUtils from '@date-io/moment';
+import { DatePicker, MuiPickersUtilsProvider } from "material-ui-pickers";
+import { Row, Col, Card, CardHeader } from "shards-react";
+
 var moment = require('moment');
 
 
@@ -13,9 +17,10 @@ class MapExample extends React.Component {
     this.fillDataPoints = this.fillDataPoints.bind(this);
     this.state = ({
       dataPoints: [],
-      date: new moment('05-14-2019 10:45', 'MM-DD-YYYY hh:mm').startOf('day')
+      date: new moment().startOf('day')
     })
   }
+  // '05-14-2019 10:45', 'MM-DD-YYYY hh:mm'
 
   componentDidMount() {
     this.fillDataPoints()
@@ -50,8 +55,7 @@ class MapExample extends React.Component {
             (data[i].SpeedStatus > 0) ? (data[i].SpeedStatus*data[i].SpeedStatus) : (5)
           ])
         }
-        if (newPoints.length != this.state.dataPoints.length &&
-              newPoints[0][2] !== this.state.dataPoints[0][2]){
+        if (newPoints.length != this.state.dataPoints.length){
           this.setState({dataPoints: newPoints}, () => console.log("Set state to:" + this.state.dataPoints))
         }
       })
@@ -59,21 +63,41 @@ class MapExample extends React.Component {
 
   render() {
     return (
-      <Map center={[41.663611, -91.534595]} zoom={15} scrollWheelZoom={false}>
-        <HeatmapLayer
-          fitBoundsOnLoad
-          fitBoundsOnUpdate
-          blur={20}
-          points={this.state.dataPoints}
-          longitudeExtractor={m => m[1]}
-          latitudeExtractor={m => m[0]}
-          intensityExtractor={m => parseFloat(m[2])} />
-        <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-      </Map>
-
+      <Card small className="h-100">
+        <CardHeader className="border-bottom">
+          <h6 className="m-0">Heat Map</h6>
+        </CardHeader>
+        <Row form>
+          <Col md="2" className="form-group">
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DatePicker
+                style={{paddingLeft:"15px"}}
+                value={this.state.date}
+                onChange={(selection) => {
+                  this.setState({
+                    date: selection.startOf('day')
+                  })
+                }}
+                animateYearScrolling
+                />
+            </MuiPickersUtilsProvider>
+          </Col>
+        </Row>
+        <Map center={[41.663611, -91.534595]} zoom={15} scrollWheelZoom={false}>
+          <HeatmapLayer
+            fitBoundsOnLoad
+            fitBoundsOnUpdate
+            blur={20}
+            points={this.state.dataPoints}
+            longitudeExtractor={m => m[1]}
+            latitudeExtractor={m => m[0]}
+            intensityExtractor={m => parseFloat(m[2])} />
+          <TileLayer
+            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+        </Map>
+      </Card>
     );
   }
 
