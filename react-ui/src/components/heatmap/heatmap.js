@@ -50,7 +50,8 @@ class MapExample extends React.Component {
             (data[i].SpeedStatus > 0) ? (data[i].SpeedStatus*data[i].SpeedStatus) : (5)
           ])
         }
-        if (newPoints.length != this.state.dataPoints.length){
+        if (newPoints.length != this.state.dataPoints.length &&
+              newPoints[0][2] !== this.state.dataPoints[0][2]){
           this.setState({dataPoints: newPoints}, () => console.log("Set state to:" + this.state.dataPoints))
         }
       })
