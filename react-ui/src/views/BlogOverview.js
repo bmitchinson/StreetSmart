@@ -88,26 +88,20 @@ class BlogOverview extends Component {
       <Row>
         {/* Users Overview */}
         <Col lg="8" md="12" sm="12" className="mb-4">
-          <UsersOverview />
+          <Card small className="h-100">
+            <CardHeader className="border-bottom">
+              <h6 className="m-0">Heat Map</h6>
+            </CardHeader>
+            <MapExample />
+          </Card>
         </Col>
 
         {/* Users by Device */}
         <Col lg="4" md="12" sm="12" className="mb-4">
           <UsersByDevice />
         </Col>
-
       </Row>
-
-      <Row>
-        <Col md="12" className="mb-4">
-        <Card small className="h-100">
-          <CardHeader className="border-bottom">
-            <h6 className="m-0">Heat Map</h6>
-          </CardHeader>
-          <MapExample />
-        </Card>
-        </Col>
-      </Row>
+      
     </Container>
   )}
 }
