@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col } from "shards-react";
+import { Container, Row, Col, Card, CardHeader } from "shards-react";
 
 import PageTitle from "./../components/common/PageTitle";
 import SmallStats from "./../components/common/SmallStats";
@@ -9,6 +9,7 @@ import UsersByDevice from "./../components/blog/UsersByDevice";
 import NewDraft from "./../components/blog/NewDraft";
 import Discussions from "./../components/blog/Discussions";
 import TopReferrals from "./../components/common/TopReferrals";
+import MapExample from "./../components/heatmap/heatmap";
 import { Component } from "react";
 
 class BlogOverview extends Component {
@@ -91,10 +92,21 @@ class BlogOverview extends Component {
         </Col>
 
         {/* Users by Device */}
-        <Col lg="4" md="6" sm="12" className="mb-4">
+        <Col lg="4" md="12" sm="12" className="mb-4">
           <UsersByDevice />
         </Col>
 
+      </Row>
+
+      <Row>
+        <Col md="12" className="mb-4">
+        <Card small className="h-100">
+          <CardHeader className="border-bottom">
+            <h6 className="m-0">Heat Map</h6>
+          </CardHeader>
+          <MapExample />
+        </Card>
+        </Col>
       </Row>
     </Container>
   )}

@@ -17,7 +17,7 @@ let StatusCode = ""
 
 // Starting time of the trip
 let Driver = "Tyler" // Constant
-let Time = moment('04-27-2019 10:45', 'MM-DD-YYYY hh:mm');
+let Time = moment('04-02-2019 10:45', 'MM-DD-YYYY hh:mm');
 
 // to use for simulated trip
 let checkpointStrings = [
@@ -38,7 +38,7 @@ let speedLimits = [
 // Alters varience from speed limit
 let DriveStyle = -1 // -2: Slow driver, 0: Strict Driver, 1: Late, 3: Stupid
 let sampleRate = 15 // Sample every 15 seconds
-let timeFactor = 3 // Move time along 3x times faster
+let timeFactor = 2 // Move time along 3x times faster
 let pushMode = true // If enabled results are pushed to firebase
 let delayMode = true // If enabled, time / speed MPH accurate delays occur
 
