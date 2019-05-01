@@ -10,7 +10,7 @@ import UserProfileLite from "./views/UserProfileLite";
 import AddNewPost from "./views/AddNewPost";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
-import Tables from "./views/Tables";
+import Table from "./views/Table";
 import BlogPosts from "./views/BlogPosts";
 
 export default [
@@ -46,9 +46,9 @@ export default [
     component: ComponentsOverview
   },
   {
-    path: "/tables",
+    path: "/table",
     layout: DefaultLayout,
-    component: Tables
+    component: Table
   },
   {
     path: "/blog-posts",

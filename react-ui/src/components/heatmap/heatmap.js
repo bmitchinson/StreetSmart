@@ -12,15 +12,18 @@ class MapExample extends React.Component {
     super();
     this.fillDataPoints = this.fillDataPoints.bind(this);
     this.state = ({
-      dataPoints: [41.663611, -91.534595, 1],
+      dataPoints: [],
       date: new moment('05-14-2019 10:45', 'MM-DD-YYYY hh:mm').startOf('day')
     })
   }
 
   componentDidMount() {
     this.fillDataPoints()
-    var intervalId = setInterval(this.fillDataPoints, 2000);
-    this.setState({intervalId: intervalId});
+    var intervalId = setInterval(this.fillDataPoints, 3000);
+    this.setState(prevState => ({
+      ...prevState,
+      intervalId: intervalId
+    }))
   }
  
   componentWillUnmount() {
@@ -35,7 +38,6 @@ class MapExample extends React.Component {
 
     let url = base + '/events?Date=' + this.state.date.format('x')
     console.log("Map fetching: " + url)
-    //url = "http://myjson.com/e1qow"
 
     fetch(url)
       .then(response => response.json())
@@ -48,19 +50,15 @@ class MapExample extends React.Component {
             (data[i].SpeedStatus > 0) ? (data[i].SpeedStatus*data[i].SpeedStatus) : (5)
           ])
         }
-        console.log(newPoints)
-        if (newPoints != []){
-          this.setState({dataPoints: newPoints}, () => console.log(this.state.dataPoints))
-        }
-        else{
-          console.log(this.state.dataPoints)
+        if (newPoints.length != this.state.dataPoints.length){
+          this.setState({dataPoints: newPoints}, () => console.log("Set state to:" + this.state.dataPoints))
         }
       })
   }
 
   render() {
     return (
-      <Map center={[0, 0]} zoom={13} scrollWheelZoom={false}>
+      <Map center={[41.663611, -91.534595]} zoom={15} scrollWheelZoom={false}>
         <HeatmapLayer
           fitBoundsOnLoad
           fitBoundsOnUpdate
