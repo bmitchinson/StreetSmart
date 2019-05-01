@@ -96,13 +96,8 @@ class BlogOverview extends Component {
 
         <Row>
           {/* Users Overview */}
-          <Col lg="8" md="12" sm="12" className="mb-4">
+          <Col lg="12" md="12" sm="12" className="mb-4">
             <MapExample />
-          </Col>
-
-          {/* Users by Device */}
-          <Col lg="4" md="12" sm="12" className="mb-4">
-            <UsersByDevice />
           </Col>
         </Row>
 
