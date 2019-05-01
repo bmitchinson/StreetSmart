@@ -7,9 +7,9 @@ export default function() {
       htmlAfter: ""
     },
     {
-      title: "Tables",
+      title: "Table",
       htmlBefore: '<i class="material-icons">table_chart</i>',
-      to: "/tables",
+      to: "/table",
     },
     {
       title: "User Profile",

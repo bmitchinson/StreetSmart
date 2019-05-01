@@ -17,7 +17,7 @@ import { DatePicker, MuiPickersUtilsProvider } from "material-ui-pickers";
 import PageTitle from "../components/common/PageTitle";
 var moment = require('moment');
 
-class Tables extends React.Component {
+class Table extends React.Component {
   constructor(props) {
     super(props);
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -286,4 +286,4 @@ class Tables extends React.Component {
   }
 }
 
-export default Tables;
+export default Table;
