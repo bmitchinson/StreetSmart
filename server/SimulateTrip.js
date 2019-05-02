@@ -3,9 +3,9 @@ var moment = require('moment');
 
 // Firebase initializtion
 firebase.initializeApp({
-  apiKey: "***REMOVED***",
-  authDomain: "***REMOVED***",
-  projectId: "***REMOVED***"
+  apiKey: "",
+  authDomain: "",
+  projectId: ""
 });
 var db = firebase.firestore();
 

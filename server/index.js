@@ -10,8 +10,8 @@ require("firebase/firestore");
 
 firebase.initializeApp({
   apiKey: "***REMOVED***",
-  authDomain: "***REMOVED***",
-  projectId: "***REMOVED***"
+  authDomain: "streetsmart-2cf68.firebaseapp.com",
+  projectId: "streetsmart-2cf68"
 });
 
 var db = firebase.firestore();
