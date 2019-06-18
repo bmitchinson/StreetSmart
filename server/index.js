@@ -9,9 +9,9 @@ var moment = require('moment');
 require("firebase/firestore");
 
 firebase.initializeApp({
-  apiKey: "***REMOVED***",
-  authDomain: "streetsmart-2cf68.firebaseapp.com",
-  projectId: "streetsmart-2cf68"
+  apiKey: "",
+  authDomain: "",
+  projectId: ""
 });
 
 var db = firebase.firestore();
