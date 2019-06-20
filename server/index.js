@@ -6,12 +6,14 @@ const numCPUs = require('os').cpus().length;
 const firebase = require("firebase");
 var moment = require('moment');
 
+import {APIKEY, DOMAIN} from '../firebaseConfig';
+
 require("firebase/firestore");
 
 firebase.initializeApp({
-  apiKey: "",
-  authDomain: "",
-  projectId: ""
+  apiKey: APIKEY,
+  authDomain: DOMAIN + '.firebaseapp.com',
+  projectId: DOMAIN
 });
 
 var db = firebase.firestore();
