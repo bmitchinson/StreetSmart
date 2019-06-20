@@ -8,7 +8,9 @@
   "scripts": {
     "start": "node server",
     "nodemon": "nodemon server",
-    "build": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "build": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "deploy": "git push heroku master",
+    "go": "cd react-ui/ && npm run build && cd .. && npm start"
   },
   "cacheDirectories": [
     "node_modules",

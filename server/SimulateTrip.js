@@ -1,13 +1,13 @@
 const firebase = require("firebase");
 var moment = require('moment');
 
-import {APIKEY, DOMAIN} from '../firebaseConfig';
+var firebaseConfig = require('../firebaseConfig.js');
 
 // Firebase initializtion
 firebase.initializeApp({
-  apiKey: APIKEY,
-  authDomain: DOMAIN + '.firebaseapp.com',
-  projectId: DOMAIN
+  apiKey: firebaseConfig.APIKEY,
+  authDomain: firebaseConfig.DOMAIN + '.firebaseapp.com',
+  projectId: firebaseConfig.DOMAIN
 });
 
 var db = firebase.firestore();

@@ -5,15 +5,15 @@ const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const firebase = require("firebase");
 var moment = require('moment');
+var firebaseConfig = require('../firebaseConfig.js');
 
-import {APIKEY, DOMAIN} from '../firebaseConfig';
 
 require("firebase/firestore");
 
 firebase.initializeApp({
-  apiKey: APIKEY,
-  authDomain: DOMAIN + '.firebaseapp.com',
-  projectId: DOMAIN
+  apiKey: firebaseConfig.APIKEY,
+  authDomain: firebaseConfig.DOMAIN + '.firebaseapp.com',
+  projectId: firebaseConfig.DOMAIN
 });
 
 var db = firebase.firestore();

@@ -17,7 +17,7 @@ class MapExample extends React.Component {
     this.fillDataPoints = this.fillDataPoints.bind(this);
     this.state = ({
       dataPoints: [],
-      date: new moment().startOf('day')
+      date: new moment('2019-06-19','YYYY-MM-DD').startOf('day')
     })
   }
   // '05-14-2019 10:45', 'MM-DD-YYYY hh:mm'
