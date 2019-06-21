@@ -1,13 +1,12 @@
+require('dotenv').config();
 const firebase = require("firebase");
 var moment = require('moment');
 
-var firebaseConfig = require('../firebaseConfig.js');
-
 // Firebase initializtion
 firebase.initializeApp({
-  apiKey: firebaseConfig.APIKEY,
-  authDomain: firebaseConfig.DOMAIN + '.firebaseapp.com',
-  projectId: firebaseConfig.DOMAIN
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.DOMAIN + '.firebaseapp.com',
+  projectId: process.env.DOMAIN
 });
 
 var db = firebase.firestore();

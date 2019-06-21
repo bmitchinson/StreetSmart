@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const http = require('http')
@@ -5,15 +6,13 @@ const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const firebase = require("firebase");
 var moment = require('moment');
-var firebaseConfig = require('../firebaseConfig.js');
-
 
 require("firebase/firestore");
 
 firebase.initializeApp({
-  apiKey: firebaseConfig.APIKEY,
-  authDomain: firebaseConfig.DOMAIN + '.firebaseapp.com',
-  projectId: firebaseConfig.DOMAIN
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.DOMAIN + '.firebaseapp.com',
+  projectId: process.env.DOMAIN
 });
 
 var db = firebase.firestore();
