@@ -136,7 +136,7 @@ for (const destPoint of checkpoints){
       console.log(Time.format('lll') + ": 🚗  located @ " +
         String(Math.round(carGeoPoint.latitude * 1000000.0) / 1000000.0) +
         ", " + String(Math.round(carGeoPoint.longitude * 1000000.0) / 1000000.0)
-        + " going " + carMPH + "MPH in a " + speedLimits[index - 1] + "MPH Zone"
+        + "\ngoing " + carMPH + "MPH in a " + speedLimits[index - 1] + "MPH Zone"
       );
     }
     Battery--
