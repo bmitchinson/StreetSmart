@@ -23,16 +23,7 @@ class MapExample extends React.Component {
   // '05-14-2019 10:45', 'MM-DD-YYYY hh:mm'
 
   componentDidMount() {
-    this.fillDataPoints()
-    var intervalId = setInterval(this.fillDataPoints, 3000);
-    this.setState(prevState => ({
-      ...prevState,
-      intervalId: intervalId
-    }))
-  }
- 
-  componentWillUnmount() {
-      clearInterval(this.state.intervalId);
+    this.fillDataPoints();
   }
 
   fillDataPoints() {
@@ -76,7 +67,7 @@ class MapExample extends React.Component {
                 onChange={(selection) => {
                   this.setState({
                     date: selection.startOf('day')
-                  })
+                  }, () => this.fillDataPoints())
                 }}
                 animateYearScrolling
                 />
